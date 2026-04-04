@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VentureScope Extension</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen">
+      <div class="header">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#0066ff"/>
+            <path d="M16 8L22 16L16 24L10 16L16 8Z" fill="white"/>
+          </svg>
+          <h1>VentureScope</h1>
+        </div>
+        <p class="subtitle">Sign in to sync your academic data</p>
+      </div>
+
+      <form id="loginForm" class="form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="your@email.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="loginBtn">
+          <span>Sign In</span>
+        </button>
+
+        <p class="help-text">Use your VentureScope account credentials</p>
+      </form>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboardScreen" class="screen hidden">
+      <div class="header">
+        <div class="logo">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#0066ff"/>
+            <path d="M16 8L22 16L16 24L10 16L16 8Z" fill="white"/>
+          </svg>
+          <h1>VentureScope</h1>
+        </div>
+      </div>
+
+      <div class="status-badge">
+        <span class="status-badge-dot"></span>
+        ACTIVE ENVIRONMENT
+      </div>
+
+      <div class="status-card">
+        <h2 class="status-card-title">Ready to Sync</h2>
+        <p class="status-card-description">Securely migrate your academic record to the intelligence layer.</p>
+      </div>
+
+      <button class="btn btn-primary" id="syncBtn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"/>
+        </svg>
+        <span>Sync Academic Data</span>
+      </button>
+
+      <div class="sync-activity">
+        <div class="sync-activity-header">
+          <h3>Sync Activity</h3>
+          <span class="sync-activity-label" id="liveLabel">Live Feed</span>
+        </div>
+        <div class="activity-list" id="activityList">
+          <div class="activity-item active">
+            <div class="activity-dot"></div>
+            <div class="activity-content">
+              <div class="activity-title">Extracting Semester 4...</div>
+              <div class="activity-progress">
+                <div class="activity-progress-bar" style="width: 65%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="activity-item completed">
+            <div class="activity-dot"></div>
+            <div class="activity-content">
+              <div class="activity-title">Validated Credentials</div>
+              <div class="activity-description">University Auth Gateway Approved</div>
+            </div>
+          </div>
+          <div class="activity-item completed">
+            <div class="activity-dot"></div>
+            <div class="activity-content">
+              <div class="activity-title">Connection Established</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="avatar" style="width: 36px; height: 36px; font-size: 14px;">
+            <span id="userInitials">U</span>
+          </div>
+          <div>
+            <div style="font-size: 13px; font-weight: 600; color: #0f172a;" id="userName">User</div>
+            <div style="font-size: 12px; color: #94a3b8;" id="userEmail">user@email.com</div>
+          </div>
+        </div>
+        <button class="btn-icon" id="logoutBtn" title="Logout">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 11-2 0V4H5v12h10v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Data View Screen -->
+    <div id="dataScreen" class="screen hidden">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <button class="btn-back" id="backFromData">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/>
+          </svg>
+        </button>
+        <h2 style="font-size: 18px; font-weight: 600; color: #0f172a; margin: 0;">Synced Academic Data</h2>
+      </div>
+
+      <div class="data-container" id="dataContainer">
+        <div class="data-section">
+          <h3>Personal Information</h3>
+          <div class="data-grid" id="personalData"></div>
+        </div>
+
+        <div class="data-section">
+          <h3>Courses & Grades</h3>
+          <div id="coursesData"></div>
+        </div>
+
+        <div class="data-section">
+          <h3>Academic Progress</h3>
+          <div class="data-grid" id="progressData"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settingsScreen" class="screen hidden">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <button class="btn-back" id="backFromSettings">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/>
+          </svg>
+        </button>
+        <h2 style="font-size: 18px; font-weight: 600; color: #0f172a; margin: 0;">Settings</h2>
+      </div>
+
+      <div class="settings-container">
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Auto-sync</h3>
+            <p>Automatically sync when portal is detected</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="autoSyncToggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Notifications</h3>
+            <p>Get notified when sync is complete</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="notificationsToggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Clear Cache</h3>
+            <p>Remove all locally stored academic data</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="clearDataBtn">Clear Cache</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Consent Modal Overlay -->
+  <div id="consentOverlay" class="consent-overlay hidden">
+    <div class="consent-modal">
+      <div class="consent-header">
+        <h2>Data Extraction Consent</h2>
+        <button class="btn-close" id="closeConsentBtn">×</button>
+      </div>
+
+      <div class="consent-body">
+        <p class="consent-intro">VentureScope will extract the following data from your ASTU e-Student account:</p>
+
+        <div class="consent-items">
+          <div class="consent-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#0066ff">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+            </svg>
+            <span>Student ID & Name</span>
+          </div>
+          <div class="consent-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#0066ff">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+            </svg>
+            <span>Courses & Grades</span>
+          </div>
+          <div class="consent-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#0066ff">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+            </svg>
+            <span>GPA & Academic Standing</span>
+          </div>
+          <div class="consent-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#0066ff">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+            </svg>
+            <span>Degree Progress & Transcript</span>
+          </div>
+        </div>
+
+        <div class="consent-warning">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="#f59e0b">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"/>
+          </svg>
+          <span>This data will be securely stored locally on your device.</span>
+        </div>
+
+        <p class="consent-terms">By clicking "Accept," you agree to allow VentureScope to extract your academic data from ASTU e-Student portal.</p>
+      </div>
+
+      <div class="consent-actions">
+        <button class="btn btn-secondary" id="declineConsentBtn">Decline</button>
+        <button class="btn btn-primary" id="acceptConsentBtn">Accept & Extract</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
