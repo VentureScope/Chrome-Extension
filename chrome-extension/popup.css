@@ -7,7 +7,9 @@
 body {
   width: 400px;
   min-height: 500px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
   color: #1f2937;
   background: #ffffff;
 }
@@ -303,6 +305,12 @@ body {
   gap: 12px;
 }
 
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
 /* Sync Activity */
 .sync-activity {
   display: flex;
@@ -536,6 +544,64 @@ body {
   gap: 16px;
 }
 
+.config-field {
+  align-items: flex-start;
+}
+
+.config-field-column {
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-input {
+  width: 100%;
+}
+
+.config-textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  font-family: Consolas, "Courier New", monospace;
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.config-textarea:focus {
+  outline: none;
+  border-color: #0066ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+.config-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.config-status {
+  font-size: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #334155;
+  padding: 10px 12px;
+}
+
+.status-success {
+  color: #166534;
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.status-error {
+  color: #991b1b;
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
 .setting-item {
   display: flex;
   align-items: center;
@@ -648,7 +714,9 @@ body {
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   animation: slideUp 0.3s ease;
 }
 
@@ -769,6 +837,33 @@ body {
 
 .consent-actions .btn {
   flex: 1;
+}
+
+.review-payload-wrap {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.review-payload-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.review-payload {
+  margin: 0;
+  padding: 12px;
+  max-height: 220px;
+  overflow: auto;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #0f172a;
+  font-family: Consolas, "Courier New", monospace;
+  white-space: pre-wrap;
 }
 
 /* Scrollbar for consent modal */

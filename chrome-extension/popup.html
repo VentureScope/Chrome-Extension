@@ -62,6 +62,11 @@
         <p class="status-card-description">Securely migrate your academic record to the intelligence layer.</p>
       </div>
 
+      <div class="form-group">
+        <label for="manualStudentIdInput">Student ID (optional override)</label>
+        <input type="text" id="manualStudentIdInput" placeholder="Enter Student ID for upload payload">
+      </div>
+
       <button class="btn btn-primary" id="syncBtn">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"/>
@@ -69,34 +74,19 @@
         <span>Sync Academic Data</span>
       </button>
 
+      <div class="quick-actions">
+        <button class="btn btn-secondary" id="openDataBtn">View Synced Data</button>
+        <button class="btn btn-secondary" id="openTranscriptConfigBtn">Transcript Config</button>
+        <button class="btn btn-secondary" id="openSettingsBtn">Settings</button>
+      </div>
+
       <div class="sync-activity">
         <div class="sync-activity-header">
           <h3>Sync Activity</h3>
           <span class="sync-activity-label" id="liveLabel">Live Feed</span>
         </div>
         <div class="activity-list" id="activityList">
-          <div class="activity-item active">
-            <div class="activity-dot"></div>
-            <div class="activity-content">
-              <div class="activity-title">Extracting Semester 4...</div>
-              <div class="activity-progress">
-                <div class="activity-progress-bar" style="width: 65%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="activity-item completed">
-            <div class="activity-dot"></div>
-            <div class="activity-content">
-              <div class="activity-title">Validated Credentials</div>
-              <div class="activity-description">University Auth Gateway Approved</div>
-            </div>
-          </div>
-          <div class="activity-item completed">
-            <div class="activity-dot"></div>
-            <div class="activity-content">
-              <div class="activity-title">Connection Established</div>
-            </div>
-          </div>
+          <p class="empty-state">No sync activity yet.</p>
         </div>
       </div>
 
@@ -147,6 +137,65 @@
       </div>
     </div>
 
+    <!-- Transcript Config Screen -->
+    <div id="transcriptConfigScreen" class="screen hidden">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+        <button class="btn-back" id="backFromTranscriptConfig">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/>
+          </svg>
+        </button>
+        <h2 style="font-size: 18px; font-weight: 600; color: #0f172a; margin: 0;">Transcript Config</h2>
+      </div>
+
+      <p class="subtitle" style="margin-top: -8px;">Configure grading scale and schema used for transcript uploads.</p>
+
+      <div class="config-status" id="transcriptConfigStatus">No changes yet.</div>
+
+      <div class="settings-container">
+        <div class="setting-item config-field config-field-column">
+          <div class="setting-info">
+            <h3>GPA Scale</h3>
+            <p>Examples: 4.0, 5.0, 10.0, 100.0</p>
+          </div>
+          <input type="number" min="0.1" max="100" step="0.1" id="gpaScaleInput" class="input-sm config-input">
+        </div>
+
+        <div class="setting-item config-field config-field-column">
+          <div class="setting-info">
+            <h3>Grading Schema (JSON)</h3>
+            <p>Map grades to points. Example: {"A": 4.0, "B+": 3.5, "W": null}</p>
+          </div>
+          <textarea id="gradingSchemaInput" class="config-textarea" rows="7"></textarea>
+        </div>
+
+        <div class="setting-item config-field config-field-column">
+          <div class="setting-info">
+            <h3>Grade Display Order</h3>
+            <p>Comma-separated list. Example: A, A-, B+, B, C, D, F, W</p>
+          </div>
+          <input type="text" id="gradeDisplayOrderInput" class="input-sm config-input" placeholder="A, A-, B+, B, C, D, F, W">
+        </div>
+
+        <div class="setting-item config-field config-field-column">
+          <div class="setting-info">
+            <h3>Available Presets</h3>
+            <p>Load presets from backend and apply one quickly.</p>
+          </div>
+          <select id="gradingPresetSelect" class="input-sm config-input"></select>
+          <button class="btn btn-secondary btn-sm" id="applyPresetBtn">Apply Selected Preset</button>
+        </div>
+      </div>
+
+      <div class="config-actions">
+        <button class="btn btn-secondary" id="loadTranscriptConfigBtn">Load Current</button>
+        <button class="btn btn-secondary" id="loadTranscriptPresetsBtn">Load Presets</button>
+        <button class="btn btn-secondary" id="recommendConfigBtn">Recommend (Mock)</button>
+        <button class="btn btn-primary" id="saveTranscriptConfigBtn">Save Config</button>
+        <button class="btn btn-secondary" id="resetTranscriptConfigBtn">Reset Default</button>
+      </div>
+    </div>
+
     <!-- Settings Screen -->
     <div id="settingsScreen" class="screen hidden">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
@@ -183,11 +232,48 @@
 
         <div class="setting-item">
           <div class="setting-info">
+            <h3>Require Student ID</h3>
+            <p>Block sync until Student ID is filled in dashboard</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="requireStudentIdToggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
             <h3>Clear Cache</h3>
             <p>Remove all locally stored academic data</p>
           </div>
           <button class="btn btn-secondary btn-sm" id="clearDataBtn">Clear Cache</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Modal Overlay -->
+  <div id="reviewOverlay" class="consent-overlay hidden">
+    <div class="consent-modal">
+      <div class="consent-header">
+        <h2>Review Scraped Data</h2>
+        <button class="btn-close" id="closeReviewBtn">×</button>
+      </div>
+
+      <div class="consent-body">
+        <p class="consent-intro">Review the extracted data before it is sent to the backend.</p>
+
+        <div class="consent-items" id="reviewSummary"></div>
+
+        <div class="review-payload-wrap">
+          <div class="review-payload-title">Upload Payload Preview</div>
+          <pre class="review-payload" id="reviewPayload"></pre>
+        </div>
+      </div>
+
+      <div class="consent-actions">
+        <button class="btn btn-secondary" id="cancelReviewBtn">Cancel</button>
+        <button class="btn btn-primary" id="continueReviewBtn">Continue</button>
       </div>
     </div>
   </div>
