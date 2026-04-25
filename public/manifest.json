@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "VentureScope Academic Sync",
+  "version": "1.0.0",
+  "description": "Sync your academic data from eStudent portal to VentureScope",
+  "permissions": ["activeTab", "storage", "scripting", "tabs", "notifications"],
+  "host_permissions": [
+    "<all_urls>",
+    "https://estudent.astu.edu.et/*",
+    "http://127.0.0.1:8000/*",
+    "https://backend-1-tcmy.onrender.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.svg",
+      "48": "icons/icon48.svg",
+      "128": "icons/icon128.svg"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.svg",
+    "48": "icons/icon48.svg",
+    "128": "icons/icon128.svg"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
+
