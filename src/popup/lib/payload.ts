@@ -23,12 +23,12 @@ export function buildTranscriptCreatePayload(
   let cumulativeCredits = 0;
   let cumulativePoints = 0;
 
-  Object.entries(grouped).forEach(([semesterName, semesterCourses], index) => {
-    const validCourses = semesterCourses.filter((course) => Number(course.credits || 0) > 0);
+  Object.entries(grouped as Record<string, any[]>).forEach(([semesterName, semesterCourses]: [string, any[]], index) => {
+    const validCourses = semesterCourses.filter((course: any) => Number(course.credits || 0) > 0);
     if (!validCourses.length) return;
 
-    const creditHours = validCourses.reduce((sum, course) => sum + Number(course.credits || 0), 0);
-    const points = validCourses.reduce((sum, course) => {
+    const creditHours = validCourses.reduce((sum: number, course: any) => sum + Number(course.credits || 0), 0);
+    const points = validCourses.reduce((sum: number, course: any) => {
       const value = transcriptConfig.grading_schema?.[course.grade];
       const gradePoint = typeof value === "number" ? value : 0;
       return sum + Number(course.credits || 0) * gradePoint;
@@ -45,7 +45,7 @@ export function buildTranscriptCreatePayload(
       academic_year: index === 0 ? "2024/2025" : "2025/2026",
       semester: semesterName,
       year_level: String(data.year || "").trim() || null,
-      courses: validCourses.map((course) => ({
+      courses: validCourses.map((course: any) => ({
         code: String(course.code || ""),
         title: String(course.name || course.title || ""),
         credit_hours: Number(course.credits || 0),

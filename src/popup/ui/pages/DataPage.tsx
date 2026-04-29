@@ -80,7 +80,7 @@ export function DataPage() {
               <div className="data-item">
                 <span className="data-label">Completion</span>
                 <span className="data-value">
-                  {syncedData.degreeProgress?.completionPercentage ?? "N/A"}%
+                  {(syncedData as any).degreeProgress?.completionPercentage ?? "N/A"}%
                 </span>
               </div>
             </div>

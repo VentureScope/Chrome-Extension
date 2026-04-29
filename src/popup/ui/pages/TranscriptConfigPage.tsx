@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../components/Button";
 import {
   getTranscriptConfig,
   getTranscriptConfigPresets,
@@ -14,9 +15,10 @@ export function TranscriptConfigPage() {
   const localConfig = useAppStore((s) => s.transcriptConfig);
   const setTranscriptConfig = useAppStore((s) => s.setTranscriptConfig);
 
-  const [status, setStatus] = useState<{ type: "idle" | "success" | "error"; msg: string }>(
-    { type: "idle", msg: "No changes yet." },
-  );
+  const [status, setStatus] = useState<{
+    type: "idle" | "success" | "error";
+    msg: string;
+  }>({ type: "idle", msg: "No changes yet." });
   const [presets, setPresets] = useState<any[]>([]);
   const [presetIndex, setPresetIndex] = useState<string>("");
 
@@ -56,9 +58,15 @@ export function TranscriptConfigPage() {
       setGpaScale(cfg.gpa_scale);
       setGradingSchemaJson(JSON.stringify(cfg.grading_schema, null, 2));
       setGradeDisplayOrder((cfg.grade_display_order || []).join(", "));
-      setStatus({ type: "success", msg: "Loaded transcript config from backend." });
+      setStatus({
+        type: "success",
+        msg: "Loaded transcript config from backend.",
+      });
     } catch (e: any) {
-      setStatus({ type: "error", msg: e?.message || "Unable to load transcript config." });
+      setStatus({
+        type: "error",
+        msg: e?.message || "Unable to load transcript config.",
+      });
     }
   }
 
@@ -68,7 +76,10 @@ export function TranscriptConfigPage() {
       setPresets(p);
       setStatus({ type: "success", msg: `Loaded ${p.length} presets.` });
     } catch (e: any) {
-      setStatus({ type: "error", msg: e?.message || "Unable to load presets." });
+      setStatus({
+        type: "error",
+        msg: e?.message || "Unable to load presets.",
+      });
     }
   }
 
@@ -82,7 +93,10 @@ export function TranscriptConfigPage() {
     setGpaScale(preset.gpa_scale);
     setGradingSchemaJson(JSON.stringify(preset.grading_schema, null, 2));
     setGradeDisplayOrder((preset.grade_display_order || []).join(", "));
-    setStatus({ type: "success", msg: `Applied preset: ${preset.name}. Click Save Config to persist.` });
+    setStatus({
+      type: "success",
+      msg: `Applied preset: ${preset.name}. Click Save Config to persist.`,
+    });
   }
 
   async function save() {
@@ -90,8 +104,15 @@ export function TranscriptConfigPage() {
       setStatus({ type: "error", msg: "Grading schema must be valid JSON." });
       return;
     }
-    if (!Number.isFinite(parsedConfig.gpa_scale) || parsedConfig.gpa_scale <= 0 || parsedConfig.gpa_scale > 100) {
-      setStatus({ type: "error", msg: "GPA scale must be a number between 0 and 100." });
+    if (
+      !Number.isFinite(parsedConfig.gpa_scale) ||
+      parsedConfig.gpa_scale <= 0 ||
+      parsedConfig.gpa_scale > 100
+    ) {
+      setStatus({
+        type: "error",
+        msg: "GPA scale must be a number between 0 and 100.",
+      });
       return;
     }
     if (!parsedConfig.grade_display_order.length) {
@@ -101,9 +122,15 @@ export function TranscriptConfigPage() {
     try {
       const saved = await saveTranscriptConfig(parsedConfig);
       await setTranscriptConfig(saved);
-      setStatus({ type: "success", msg: "Transcript config saved to backend." });
+      setStatus({
+        type: "success",
+        msg: "Transcript config saved to backend.",
+      });
     } catch (e: any) {
-      setStatus({ type: "error", msg: e?.message || "Unable to save transcript config." });
+      setStatus({
+        type: "error",
+        msg: e?.message || "Unable to save transcript config.",
+      });
     }
   }
 
@@ -112,11 +139,21 @@ export function TranscriptConfigPage() {
       await resetTranscriptConfig();
       await setTranscriptConfig(DEFAULT_TRANSCRIPT_CONFIG);
       setGpaScale(DEFAULT_TRANSCRIPT_CONFIG.gpa_scale);
-      setGradingSchemaJson(JSON.stringify(DEFAULT_TRANSCRIPT_CONFIG.grading_schema, null, 2));
-      setGradeDisplayOrder(DEFAULT_TRANSCRIPT_CONFIG.grade_display_order.join(", "));
-      setStatus({ type: "success", msg: "Transcript config reset to backend defaults." });
+      setGradingSchemaJson(
+        JSON.stringify(DEFAULT_TRANSCRIPT_CONFIG.grading_schema, null, 2),
+      );
+      setGradeDisplayOrder(
+        DEFAULT_TRANSCRIPT_CONFIG.grade_display_order.join(", "),
+      );
+      setStatus({
+        type: "success",
+        msg: "Transcript config reset to backend defaults.",
+      });
     } catch (e: any) {
-      setStatus({ type: "error", msg: e?.message || "Unable to reset config." });
+      setStatus({
+        type: "error",
+        msg: e?.message || "Unable to reset config.",
+      });
     }
   }
 
@@ -127,16 +164,29 @@ export function TranscriptConfigPage() {
 
   return (
     <div className="screen">
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-        <button className="btn-back" onClick={() => navigate("/dashboard")}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          marginBottom: 8,
+        }}
+      >
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate("/dashboard")}
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <path
               fillRule="evenodd"
               d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
             />
           </svg>
-        </button>
-        <h2 style={{ fontSize: 18, fontWeight: 600, color: "#0f172a", margin: 0 }}>
+        </Button>
+        <h2
+          style={{ fontSize: 18, fontWeight: 600, color: "#0f172a", margin: 0 }}
+        >
           Transcript Config
         </h2>
       </div>
@@ -175,7 +225,10 @@ export function TranscriptConfigPage() {
         <div className="setting-item config-field config-field-column">
           <div className="setting-info">
             <h3>Grading Schema (JSON)</h3>
-            <p>Map grades to points. Example: {"{ \"A\": 4.0, \"B+\": 3.5, \"W\": null }"}</p>
+            <p>
+              Map grades to points. Example:{" "}
+              {'{ "A": 4.0, "B+": 3.5, "W": null }'}
+            </p>
           </div>
           <textarea
             className="config-textarea"
@@ -209,34 +262,35 @@ export function TranscriptConfigPage() {
             value={presetIndex}
             onChange={(e) => setPresetIndex(e.target.value)}
           >
-            <option value="">{presets.length ? "Select a preset" : "No presets loaded"}</option>
+            <option value="">
+              {presets.length ? "Select a preset" : "No presets loaded"}
+            </option>
             {presets.map((preset, idx) => (
               <option key={preset.name || idx} value={String(idx)}>
                 {preset.name} - {preset.description}
               </option>
             ))}
           </select>
-          <button className="btn btn-secondary btn-sm" onClick={applyPreset}>
+          <Button variant="secondary" size="sm" onClick={applyPreset}>
             Apply Selected Preset
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="config-actions">
-        <button className="btn btn-secondary" onClick={loadCurrent}>
+        <Button variant="secondary" onClick={loadCurrent}>
           Load Current
-        </button>
-        <button className="btn btn-secondary" onClick={loadPresets}>
+        </Button>
+        <Button variant="secondary" onClick={loadPresets}>
           Load Presets
-        </button>
-        <button className="btn btn-primary" onClick={save}>
+        </Button>
+        <Button variant="primary" onClick={save}>
           Save Config
-        </button>
-        <button className="btn btn-secondary" onClick={reset}>
+        </Button>
+        <Button variant="secondary" onClick={reset}>
           Reset Default
-        </button>
+        </Button>
       </div>
     </div>
   );
 }
-

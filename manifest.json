@@ -3,7 +3,7 @@
   "name": "VentureScope Academic Sync",
   "version": "1.0.0",
   "description": "Sync your academic data from eStudent portal to VentureScope",
-  "permissions": ["activeTab", "storage", "scripting", "tabs", "notifications"],
+  "permissions": ["activeTab", "storage", "scripting", "tabs", "notifications", "identity"],
   "host_permissions": [
     "<all_urls>",
     "https://estudent.astu.edu.et/*",

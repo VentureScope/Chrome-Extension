@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
-import { login } from "../../api/auth";
+import { login, oauthLogin } from "../../api/auth";
 import { useAppStore } from "../../state/store";
 
 export function LoginPage() {
@@ -29,6 +29,20 @@ export function LoginPage() {
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
       setError(err?.message || "Login failed.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function onOAuthLogin(provider: "google" | "github") {
+    setSubmitting(true);
+    setError(null);
+    try {
+      const session = await oauthLogin(provider);
+      await setUser(session);
+      navigate("/dashboard", { replace: true });
+    } catch (err: any) {
+      setError(err?.message || `Failed to sign in with ${provider}.`);
     } finally {
       setSubmitting(false);
     }
@@ -66,6 +80,20 @@ export function LoginPage() {
         <button type="submit" className="btn btn-primary" disabled={!canSubmit}>
           <span>{submitting ? "Signing in…" : "Sign In"}</span>
         </button>
+
+        <div className="oauth-divider" style={{ margin: "1rem 0", textAlign: "center", position: "relative" }}>
+          <span style={{ background: "var(--color-bg)", padding: "0 10px", color: "var(--color-text-muted)", fontSize: "0.85rem", position: "relative", zIndex: 1 }}>Or continue with</span>
+          <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "var(--color-border)", zIndex: 0 }}></div>
+        </div>
+
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button type="button" className="btn" style={{ flex: 1, backgroundColor: "#fff", color: "#000", border: "1px solid #ccc" }} onClick={() => onOAuthLogin("google")} disabled={submitting}>
+            Google
+          </button>
+          <button type="button" className="btn" style={{ flex: 1, backgroundColor: "#24292e", color: "#fff", border: "1px solid #24292e" }} onClick={() => onOAuthLogin("github")} disabled={submitting}>
+            GitHub
+          </button>
+        </div>
 
         {error ? (
           <div className="config-status status-error" style={{ textAlign: "left" }}>

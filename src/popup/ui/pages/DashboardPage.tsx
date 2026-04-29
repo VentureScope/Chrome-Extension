@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
 import { ConsentModal, ReviewModal } from "../components/Modals";
+import { Button } from "../components/Button";
 import { logout } from "../../api/auth";
 import { uploadTranscript, getLatestTranscript } from "../../api/transcripts";
 import { useAppStore } from "../../state/store";
@@ -290,30 +291,26 @@ export function DashboardPage() {
         />
       </div>
 
-      <button
-        className="btn btn-primary"
-        onClick={startSync}
-        disabled={syncing}
-      >
+      <Button variant="primary" onClick={startSync} disabled={syncing}>
         <span>{syncing ? "Syncing…" : "Sync Academic Data"}</span>
-      </button>
+      </Button>
 
       <div className="quick-actions">
-        <button className="btn btn-secondary" onClick={() => navigate("/data")}>
+        <Button variant="secondary" onClick={() => navigate("/data")}>
           View Synced Data
-        </button>
-        <button
-          className="btn btn-secondary"
+        </Button>
+        <Button
+          variant="secondary"
           onClick={() => navigate("/transcript-config")}
         >
           Transcript Config
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={() => navigate("/settings")}
-        >
+        </Button>
+        <Button variant="secondary" onClick={() => navigate("/transcripts")}>
+          Transcripts
+        </Button>
+        <Button variant="secondary" onClick={() => navigate("/settings")}>
           Settings
-        </button>
+        </Button>
       </div>
 
       <div className="sync-activity">
@@ -348,11 +345,11 @@ export function DashboardPage() {
             <div style={{ fontSize: 12, color: "#94a3b8" }}>{user.email}</div>
           </div>
         </div>
-        <button className="btn-icon" title="Logout" onClick={onLogout}>
+        <Button variant="icon" title="Logout" onClick={onLogout}>
           <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
             <path d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 11-2 0V4H5v12h10v-2a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" />
           </svg>
-        </button>
+        </Button>
       </div>
 
       <ReviewModal

@@ -125,3 +125,76 @@ export async function getTranscriptConfigPresets(): Promise<any[]> {
     throw new Error(getApiErrorMessage(e));
   }
 }
+
+export async function listTranscripts(): Promise<{
+  transcripts: any[];
+  total_count: number;
+}> {
+  console.log(`${TRANSCRIPT_LOG_PREFIX} listTranscripts:start`);
+  try {
+    const res = await api.get("/api/transcripts/");
+    console.log(`${TRANSCRIPT_LOG_PREFIX} listTranscripts:success`, {
+      status: res.status,
+      data: res.data,
+    });
+    return res.data;
+  } catch (e) {
+    console.error(`${TRANSCRIPT_LOG_PREFIX} listTranscripts:error`, {
+      error: e,
+    });
+    throw new Error(getApiErrorMessage(e));
+  }
+}
+
+export async function getTranscriptById(transcriptId: string) {
+  console.log(`${TRANSCRIPT_LOG_PREFIX} getTranscriptById:start`, {
+    transcriptId,
+  });
+  try {
+    const res = await api.get(`/api/transcripts/${transcriptId}`);
+    console.log(`${TRANSCRIPT_LOG_PREFIX} getTranscriptById:success`, {
+      status: res.status,
+      data: res.data,
+    });
+    return res.data;
+  } catch (e) {
+    console.error(`${TRANSCRIPT_LOG_PREFIX} getTranscriptById:error`, {
+      error: e,
+    });
+    throw new Error(getApiErrorMessage(e));
+  }
+}
+
+export async function deleteTranscript(transcriptId: string): Promise<void> {
+  console.log(`${TRANSCRIPT_LOG_PREFIX} deleteTranscript:start`, {
+    transcriptId,
+  });
+  try {
+    await api.delete(`/api/transcripts/${transcriptId}`);
+    console.log(`${TRANSCRIPT_LOG_PREFIX} deleteTranscript:success`);
+  } catch (e) {
+    console.error(`${TRANSCRIPT_LOG_PREFIX} deleteTranscript:error`, {
+      error: e,
+    });
+    throw new Error(getApiErrorMessage(e));
+  }
+}
+
+export async function recommendConfig(payload: any) {
+  console.log(`${TRANSCRIPT_LOG_PREFIX} recommendConfig:start`);
+  try {
+    const res = await api.post(`/api/transcripts/recommend-config`, payload, {
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log(`${TRANSCRIPT_LOG_PREFIX} recommendConfig:success`, {
+      status: res.status,
+      data: res.data,
+    });
+    return res.data;
+  } catch (e) {
+    console.error(`${TRANSCRIPT_LOG_PREFIX} recommendConfig:error`, {
+      error: e,
+    });
+    throw new Error(getApiErrorMessage(e));
+  }
+}

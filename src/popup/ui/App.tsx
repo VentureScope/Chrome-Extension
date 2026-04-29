@@ -6,6 +6,7 @@ import { DashboardPage } from "./pages/DashboardPage";
 import { DataPage } from "./pages/DataPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { TranscriptConfigPage } from "./pages/TranscriptConfigPage";
+import { TranscriptsPage } from "./pages/TranscriptsPage";
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const user = useAppStore((s) => s.user);
@@ -35,7 +36,12 @@ export function App() {
       <Routes>
         <Route
           path="/"
-          element={<Navigate to={user?.accessToken ? "/dashboard" : "/login"} replace />}
+          element={
+            <Navigate
+              to={user?.accessToken ? "/dashboard" : "/login"}
+              replace
+            />
+          }
         />
         <Route path="/login" element={<LoginPage />} />
         <Route
@@ -70,9 +76,16 @@ export function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path="/transcripts"
+          element={
+            <RequireAuth>
+              <TranscriptsPage />
+            </RequireAuth>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>
   );
 }
-

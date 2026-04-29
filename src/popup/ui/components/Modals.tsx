@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "./Button";
 import type { AcademicData } from "../../lib/types";
 
 export function ReviewModal({
@@ -71,12 +72,12 @@ export function ReviewModal({
           </div>
         </div>
         <div className="consent-actions">
-          <button className="btn btn-secondary" onClick={onCancel}>
+          <Button variant="secondary" onClick={onCancel}>
             Cancel
-          </button>
-          <button className="btn btn-primary" onClick={onContinue}>
+          </Button>
+          <Button variant="primary" onClick={onContinue}>
             Continue
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -104,8 +105,8 @@ export function ConsentModal({
         </div>
         <div className="consent-body">
           <p className="consent-intro">
-            VentureScope will extract the following data from your ASTU e-Student
-            account:
+            VentureScope will extract the following data from your ASTU
+            e-Student account:
           </p>
 
           <div className="consent-items">
@@ -134,24 +135,25 @@ export function ConsentModal({
                 d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
               />
             </svg>
-            <span>This data will be securely stored locally on your device.</span>
+            <span>
+              This data will be securely stored locally on your device.
+            </span>
           </div>
 
           <p className="consent-terms">
-            By clicking "Accept," you agree to allow VentureScope to extract your
-            academic data from ASTU e-Student portal.
+            By clicking "Accept," you agree to allow VentureScope to extract
+            your academic data from ASTU e-Student portal.
           </p>
         </div>
         <div className="consent-actions">
-          <button className="btn btn-secondary" onClick={onDecline}>
+          <Button variant="secondary" onClick={onDecline}>
             Decline
-          </button>
-          <button className="btn btn-primary" onClick={onAccept}>
+          </Button>
+          <Button variant="primary" onClick={onAccept}>
             Accept & Extract
-          </button>
+          </Button>
         </div>
       </div>
     </div>
   );
 }
-

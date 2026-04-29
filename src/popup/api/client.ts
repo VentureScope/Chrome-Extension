@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { normalizeTokenType } from "../lib/normalize";
 import { useAppStore } from "../state/store";
 
-export const API_BASE_URL = "https://backend-1-tcmy.onrender.com";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const API_LOG_PREFIX = "[VS API]";
 
 function buildRequestId() {
